@@ -9,7 +9,7 @@
 	<arg name="publish_freq" default="10.0"/>
 	<arg name="output_type" default="0"/>
 	<arg name="rviz_enable" default="false"/>
-	<arg name="rosbag_enable" default="false"/>
+	<arg name="rosbag_enable" default="true"/>
 	<arg name="cmdline_arg" default="$(arg bd_list)"/>
 	<arg name="msg_frame_id" default="livox_frame"/>
 	<arg name="lidar_bag" default="true"/>
@@ -33,8 +33,12 @@
 	      output="screen" args="$(arg cmdline_arg)"/>
 
 	<group if="$(arg rosbag_enable)">
-    	<node pkg="rosbag" type="record" name="record" output="screen"
-          		args="-a"/>
+    	<!-- <node pkg="rosbag" type="record" name="record" output="screen"
+          		args="-a"/> -->
+
+	<node pkg="rosbag" type="record" name="record" output="screen"
+                        args="-o /home/catkin_ws/data/ --split --duration=2m /theta_driver_node/image_raw /camera/image_color/compressed /camera/image_color/compressed/parameter_descriptions /camera/image_color/compressed/parameter_updates /livox/imu /livox/lidar "/>
+
     </group>
 
 </launch>
